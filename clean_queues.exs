@@ -1,9 +1,5 @@
-#!/usr/bin/env elixir
+#! /usr/bin/env elixir
 defmodule CleanQueues do
-  @moduledoc """
-  Documentation for CleanQueues.
-  """
-
   @doc """
     Cleans queues starting with `q.v1.`
   """
@@ -14,10 +10,11 @@ defmodule CleanQueues do
 
   defp get_queues() do
     {queues, _} = System.cmd("/usr/local/opt/rabbitmq/sbin/rabbitmqctl", ["list_queues"])
+
     queues
     |> String.split("\n")
     |> Enum.filter(fn queue -> String.starts_with?(queue, "q.v1.") end)
-    |> Enum.map(fn queue -> String.replace(queue, "\t0", "") end)
+    |> Enum.map(fn queue -> String.split(queue, "\t") |> Enum.at(0) end)
   end
 
   defp clean_queues(queues) do
@@ -27,7 +24,7 @@ defmodule CleanQueues do
 
   defp clean_queue(queue) do
     IO.puts("Purging: " <> queue)
-    System.cmd("/usr/local/opt/rabbitmq/sbin/rabbitmqctl", ["purge_queue", queue])
+    System.cmd("/usr/local/opt/rabbitmq/sbin/rabbitmqctl", ["purge_queue", String.trim(queue)])
   end
 end
 
