@@ -15,7 +15,7 @@ defmodule CleanQueues do
 
     queues
     |> String.split("\n")
-    |> Enum.filter(fn queue -> String.contains?(queue, ".q.") end)
+    |> Enum.filter(fn queue -> String.contains?(queue, ".q.") || String.starts_with?(queue, "q.") end)
     |> Enum.filter(fn queue -> String.split(queue, "\t") |> Enum.at(1) != "0" end)
     |> Enum.map(fn queue -> String.split(queue, "\t") |> Enum.at(0) end)
   end
