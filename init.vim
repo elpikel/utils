@@ -1,5 +1,3 @@
-" map jk to esc
-imap jk <Esc>
 " show number
 set number
 " set encoding
@@ -34,21 +32,16 @@ Plug 'rakr/vim-one'
 " :MixFormat
 Plug 'mhinz/vim-mix-format'
 Plug 'elixir-editors/vim-elixir'
-" :CocInstall coc-elixir
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" analysis
 Plug 'dense-analysis/ale'
 " :NERDTree
-Plug 'scrooloose/nerdtree'
-" vimux - for communication with tmux
-Plug 'benmills/vimux'
-Plug 'ctrlpvim/ctrlp.vim'
 " window resize
 Plug 'simeji/winresizer'
 " js
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'yuezk/vim-js'
 " search
-Plug   'eugen0329/vim-esearch'
+Plug 'eugen0329/vim-esearch'
 " prettier
 Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 let g:prettier#autoformat = 0
