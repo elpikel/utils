@@ -49,6 +49,12 @@ Plug 'maxmellon/vim-jsx-pretty'
 Plug 'yuezk/vim-js'
 " search
 Plug   'eugen0329/vim-esearch'
+" prettier
+Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
+let g:prettier#autoformat = 0
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
+let g:prettier#config#tab_width = '2'
+
 
 nnoremap <silent> <C-a> :NERDTreeToggle<CR>
 nnoremap <silent> <C-f> :FuzzyOpen<CR>
