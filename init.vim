@@ -24,6 +24,8 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " :TestFile
 Plug 'janko/vim-test'
+Plug 'tpope/vim-dispatch'
+Plug 'benmills/vimux'
 " :Gblame
 Plug 'tpope/vim-fugitive'
 " brew instll fzy; brew install rg
@@ -35,6 +37,7 @@ Plug 'elixir-editors/vim-elixir'
 " analysis
 Plug 'dense-analysis/ale'
 " :NERDTree
+Plug 'scrooloose/nerdtree'
 " window resize
 Plug 'simeji/winresizer'
 " js
@@ -48,7 +51,6 @@ let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 let g:prettier#config#tab_width = '2'
 
-
 nnoremap <silent> <C-a> :NERDTreeToggle<CR>
 nnoremap <silent> <C-f> :FuzzyOpen<CR>
 nnoremap <silent> <C-s> :FuzzyGrep<CR>
@@ -56,7 +58,7 @@ nnoremap <C-x> :source $MYVIMRC<CR>
 
 nnoremap <silent> t<C-n> :TestNearest<CR>
 nnoremap <silent> t<C-f> :TestFile<CR>
-nnoremap <silent> t<C-s> :TestSuite<CR>
+nnoremap <silent> t<C-e> :TestSuite<CR>
 nnoremap <silent> t<C-l> :TestLast<CR>
 nnoremap <silent> t<C-g> :TestVisit<CR>
 
@@ -78,7 +80,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline_powerline_fonts = 1
 
-let test#strategy = "neovim"
+let test#strategy = "dispatch"
 
 nnoremap <silent> <C-h> :bprevious<CR>
 nnoremap <silent> <C-l> :bnext<CR>
