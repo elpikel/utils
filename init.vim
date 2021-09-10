@@ -25,7 +25,6 @@ Plug 'vim-airline/vim-airline-themes'
 " :TestFile
 Plug 'janko/vim-test'
 Plug 'tpope/vim-dispatch'
-Plug 'benmills/vimux'
 " :Gblame
 Plug 'tpope/vim-fugitive'
 " brew instll fzy; brew install rg
