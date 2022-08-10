@@ -16,17 +16,15 @@ setlocal spell spelllang=en_us
 call plug#begin('~/.config/nvim/plugged')
 " colorscheme
 Plug 'kristijanhusak/vim-hybrid-material'
-Plug 'w0ng/vim-hybrid'
-Plug 'chriskempson/vim-tomorrow-theme'
-Plug 'morhetz/gruvbox'
 " command bar
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 " :TestFile
 Plug 'janko/vim-test'
 Plug 'tpope/vim-dispatch'
-" :Gblame
+Plug 'benmills/vimux'
+" git
 Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 " brew instll fzy; brew install rg
 Plug 'cloudhead/neovim-fuzzy'
 Plug 'rakr/vim-one'
@@ -42,17 +40,24 @@ Plug 'simeji/winresizer'
 " js
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'yuezk/vim-js'
+" registers
+Plug 'tversteeg/registers.nvim', { 'branch': 'main' }
 " search
-Plug 'eugen0329/vim-esearch'
+Plug 'dyng/ctrlsf.vim'
+" refactor
+Plug 'terryma/vim-multiple-cursors'
 " prettier
 Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 let g:prettier#autoformat = 0
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
+"autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 let g:prettier#config#tab_width = '2'
+let g:fuzzy_rootcmds = ['git']
+Plug 'w0ng/vim-hybrid'
 
 nnoremap <silent> <C-a> :NERDTreeToggle<CR>
 nnoremap <silent> <C-f> :FuzzyOpen<CR>
 nnoremap <silent> <C-s> :FuzzyGrep<CR>
+nmap     <C-\> <Plug>CtrlSFPrompt
 nnoremap <C-x> :source $MYVIMRC<CR>
 
 nnoremap <silent> t<C-n> :TestNearest<CR>
@@ -69,10 +74,7 @@ syntax on
 set cursorline
 set background=light
 "set background=dark
-"colorscheme gruvbox
 colorscheme hybrid_material
-"colorscheme tomorrow-night
-"colorscheme bergen
 
 let g:airline_theme = "one"
 let g:airline#extensions#tabline#enabled = 1
@@ -99,10 +101,89 @@ let g:ale_fixers.elixir = ['mix_format']
 let g:ale_sign_column_always = 1
 let g:ale_elixir_credo_strict = 1
 
-let g:ale_elixir_elixir_ls_release = expand("/Users/arkadiuszplichta/.elixir-ls/rel")
+let g:ale_elixir_elixir_ls_release = expand("/Users/arkadiuszplichta/.elixir_ls/rel")
 let g:ale_elixir_elixir_ls_config = {'elixirLS': {'dialyzerEnabled': v:false}}
+
+let g:ale_sign_error = '!!'
+let g:ale_sign_warning = '??'
 
 nnoremap ad :ALEGoToDefinition<cr>
 nnoremap ar :ALEFindReferences<cr>
 nnoremap as :ALESymbolSearch<cr>
 nnoremap K :ALEHover<cr>
+
+highlight GitGutterAdd    guifg=#009900 ctermfg=2
+highlight GitGutterChange guifg=#bbbb00 ctermfg=3
+highlight GitGutterDelete guifg=#ff2222 ctermfg=1
+
+let g:gitgutter_sign_added = '++'
+let g:gitgutter_sign_modified = '~~'
+let g:gitgutter_sign_removed = '--'
+let g:gitgutter_sign_removed_first_line = '--'
+let g:gitgutter_sign_removed_above_and_below = '--'
+let g:gitgutter_sign_modified_removed = '--'
+
+function! PutTermPanel(buf, side, size) abort
+  " new term if no buffer
+  if a:buf == 0
+    term
+  else
+    execute "sp" bufname(a:buf)
+  endif
+  " default side if wrong argument
+  if stridx("hjklHJKL", a:side) == -1
+    execute "wincmd" "J"
+  else
+    execute "wincmd" a:side
+  endif
+  " horizontal split resize
+  if stridx("jkJK", a:side) >= 0
+    if ! a:size > 0
+      resize 6
+    else
+      execute "resize" a:size
+    endif
+    return
+  endif
+  " vertical split resize
+  if stridx("hlHL", a:side) >= 0
+    if ! a:size > 0
+      vertical resize 6
+    else
+      execute "vertical resize" a:size
+    endif
+  endif
+endfunction
+
+function! s:ToggleTerminal(side, size) abort
+  let tpbl=[]
+  let closed = 0
+  let tpbl = tabpagebuflist()
+  " hide visible terminals
+  for buf in filter(range(1, bufnr('$')), 'bufexists(bufname(v:val)) && index(tpbl, v:val)>=0')
+    if getbufvar(buf, '&buftype') ==? 'terminal'
+      silent execute bufwinnr(buf) . "hide"
+      let closed += 1
+    endif
+  endfor
+  if closed > 0
+    return
+  endif
+  " open first hidden terminal
+  for buf in filter(range(1, bufnr('$')), 'bufexists(v:val) && index(tpbl, v:val)<0')
+    if getbufvar(buf, '&buftype') ==? 'terminal'
+      call PutTermPanel(buf, a:side, a:size)
+      return
+    endif
+  endfor
+  " open new terminal
+  call PutTermPanel(0, a:side, a:size)
+endfunction
+
+" Toggle terminal - bottom
+nnoremap <silent> <c-`> :call <SID>ToggleTerminal('J', 6)<CR>
+
+" Toggle terminal - right
+nnoremap <silent> yo<c-t> :call <SID>ToggleTerminal('L', 60)<CR>
+
+tnoremap <Esc> <C-\><C-n>
