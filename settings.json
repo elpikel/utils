@@ -1,0 +1,145 @@
+{
+    "workbench.colorTheme": "Light (Visual Studio for Mac)",
+    "workbench.colorCustomizations": {
+        "editor.background": "#ebebeb",
+    },
+    "editor.fontFamily": "Meslo LG S for Powerline",
+    "editor.fontSize": 15,
+    "workbench.fontAliasing": "auto",
+    "vim.easymotion": true,
+    "vim.incsearch": true,
+    "vim.useSystemClipboard": true,
+    "vim.useCtrlKeys": true,
+    "vim.hlsearch": true,
+    "vim.insertModeKeyBindings": [
+        {
+            "before": [
+                "j",
+                "j"
+            ],
+            "after": [
+                "<Esc>"
+            ]
+        }
+    ],
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<leader>",
+                "d"
+            ],
+            "after": [
+                "d",
+                "d"
+            ]
+        },
+        {
+            "before": [
+                "<C-n>"
+            ],
+            "commands": [
+                ":nohl"
+            ]
+        }
+    ],
+    "vim.leader": "<space>",
+    "vim.handleKeys": {
+        "<C-a>": false,
+        "<C-f>": false
+    },
+    "patterns": [
+        {
+            "match": "(?<!\\.)\\b(alias|require|import|use|test|describe)\\b(?![?!])",
+            "name": "keyword.other.special-method.elixir"
+        },
+    ],
+    "editor.semanticTokenColorCustomizations": {
+        "[Light (Visual Studio for Mac)]": {
+            "rules": {
+                "variable.defaultLibrary": "#4EC9B0",
+                "variable.readonly": "#51a3c4"
+            }
+        }
+    },
+    "editor.tokenColorCustomizations": {
+        "variables": "#875f00",
+        "comments": "#5f5f5f",
+        "strings": "#005f00",
+        "types": "#875f00",
+        "keywords": "#005f5f",
+        "functions": "#875f00",
+        "numbers": "#5f005f",
+        "textMateRules": [
+            {
+                "name": "Atoms",
+                "scope": [
+                    "constant.other.symbol.elixir",
+                    "constant.language.symbol.elixir"
+                ],
+                "settings": {
+                    "foreground": "#5f005f",
+                }
+            },
+            {
+                "name": "Key word operators",
+                "scope": [
+                    "keyword.operator.other.elixir",
+                    "keyword.operator.arithmetic.elixir",
+                    "keyword.operator.logical.elixir",
+                    "keyword.operator.assignment.elixir",
+                    "keyword.operator.comparison.elixir",
+                    "keyword.operator.elixir",
+                    "keyword.operator"
+                ],
+                "settings": {
+                    "foreground": "#005f5f"
+                }
+            },
+            {
+                "name": "Keyword",
+                "scope": "keyword",
+                "settings": {
+                    "foreground": "#005f5f"
+                }
+            },
+            {
+                "name": "var",
+                "scope": [
+                    "variable.language.elixir"
+                ],
+                "settings": {
+                    "foreground": "#5f005f"
+                }
+            },
+            {
+                "name": "const",
+                "scope": [
+                    "constant.language.elixir"
+                ],
+                "settings": {
+                    "foreground": "#5f005f"
+                }
+            },
+            {
+                "name": "array",
+                "scope": [
+                    "punctuation.section.array.elixir"
+                ],
+                "settings": {
+                    "foreground": "#5f005f"
+                }
+            },
+            {
+                "name": "function",
+                "scope": [
+                    "entity.name.function-call.elixir"
+                ],
+                "settings": {
+                    "foreground": "#5f005f"
+                }
+            },
+        ]
+    },
+    "diffEditor.ignoreTrimWhitespace": false,
+    "security.workspace.trust.untrustedFiles": "open"
+}
